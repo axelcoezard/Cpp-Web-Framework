@@ -1,13 +1,12 @@
-# Plex-Scrobbler
-A C++20 webhook which automatically logs watched movies on Letterboxd.
+# Cpp Web Framework
+A C++20 state-of-the-art backend framework.
 
-**nb.** The project is currently in pause, waiting for Letterboxd to confirm I can use their API.
 
 ## Setup project
 
 ```sh
-git clone git@github.com:axelcoezard/Plex-Scrobbler.git
-cd Plex-Scrobbler
+git clone git@github.com:axelcoezard/Cpp-Web-Framework.git
+cd Cpp-Web-Framework
 
 git submodule init
 git submodule update
