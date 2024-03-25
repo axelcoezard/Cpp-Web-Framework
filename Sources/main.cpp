@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Http.hpp"
+#include <nlohmann/json.hpp>
 
 int main(int argc, char** argv)
 {
@@ -23,9 +24,34 @@ int main(int argc, char** argv)
 		.maxAge = "3600"
 	});
 
-	server.Post("/planning", [](HttpRequest& req, HttpResponse& res) {
-		res.set(HttpField::content_type, "text/plain");
-		res.body() = "{\"message\": \"Hello, World!\"}";
+	std::string value = "Hello, World!"; // default value
+
+	server.Get("/planning", [&value](HttpRequest& req, HttpResponse& res) {
+		res.set("Content-Type", "application/json");
+		res.body() = "{\"value\": \"" + value + "\"}";
+		return HttpStatus::ok;
+	});
+
+	server.Post("/planning", [&value](HttpRequest& req, HttpResponse& res) {
+		// Parse the json body
+		nlohmann::json result;
+		try {
+			result = nlohmann::json::parse(req.body());
+		} catch (nlohmann::json::parse_error& e) {
+			return HttpStatus::bad_request;
+		}
+
+		// Check if the json body contains the key "value"
+		std::string localValue = result.at("value").get<std::string>();
+		if (localValue.empty())
+			return HttpStatus::bad_request;
+
+		value = std::move(localValue);
+
+		// Send the response
+		res.set("Content-Type", "application/json");
+		res.body() = "{\"value\": \"" + value + "\"}";
+
 		return HttpStatus::ok;
 	});
 

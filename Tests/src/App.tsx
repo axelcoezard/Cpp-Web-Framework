@@ -1,8 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 const App = () => {
+	const [receivedValue, setReceivedValue] = useState('');
 	const [value, setValue] = useState('');
+
+	useEffect(() => {
+		fetch('http://localhost:8080/planning')
+			.then(response => response.json())
+			.then(data => setReceivedValue(data.value));
+	}, []);
 
 	const handleClick = () => {
 		fetch('http://localhost:8080/planning', {
@@ -13,8 +20,7 @@ const App = () => {
 			body: JSON.stringify({ value })
 		})
 			.then(response => response.json())
-			.then(data => setValue(data.message));
-
+			.then(data => setReceivedValue(data.value));
 	}
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +29,7 @@ const App = () => {
 
 	return (
 		<div className="App">
-			<h1>{value}</h1>
+			<h1>{receivedValue}</h1>
 			<input type="text" onChange={handleChange}/>
 			<button onClick={handleClick}>Click me</button>
 		</div>
