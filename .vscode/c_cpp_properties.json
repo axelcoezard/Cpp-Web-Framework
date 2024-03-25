@@ -1,0 +1,19 @@
+{
+	"configurations": [
+		{
+			"name": "Linux",
+			"includePath": [
+				"${workspaceFolder}/Sources/**",
+				"~/homebrew/opt/boost/include",
+				"~/homebrew/opt/curl/include",
+				"${workspaceFolder}/ThirdParty/"
+			],
+			"compilerPath": "/usr/bin/g++",
+			"forcedInclude": [],
+			"cStandard": "c17",
+			"intelliSenseMode": "linux-gcc-x64",
+			"configurationProvider": "ms-vscode.cmake-tools"
+		}
+	],
+	"version": 4
+}
